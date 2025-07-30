@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Savings Journey to $60,000</title>
+    <title>Your Financial Journey to $60,000</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
@@ -34,9 +34,21 @@
             font-size: 2.5rem;
             line-height: 1;
         }
-        #generateIdeasBtn:disabled, #updateProgressBtn:disabled {
+        #updateProgressBtn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+        .goal-btn {
+            transition: all 0.3s ease;
+        }
+        .goal-btn.active {
+            background-color: #003f5c;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .goal-btn:not(.active) {
+            background-color: #e2e8f0;
+            color: #4a5568;
         }
     </style>
 </head>
@@ -44,64 +56,60 @@
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-12">
 
+        <div class="w-full max-w-md mx-auto mb-12">
+            <div class="flex p-1 bg-gray-200 rounded-full">
+                <button id="selectSavings" class="goal-btn w-1/2 p-3 rounded-full font-bold">Savings Goal</button>
+                <button id="selectInvestments" class="goal-btn w-1/2 p-3 rounded-full font-bold">Investments Goal</button>
+            </div>
+        </div>
+
         <header class="text-center mb-12 md:mb-20">
-            <h1 class="text-4xl md:text-6xl font-black text-[#003f5c] tracking-tight">Your Roadmap to Financial Freedom</h1>
-            <p class="text-lg md:text-xl text-gray-600 mt-4 max-w-3xl mx-auto">A personalized, three-phase plan to help you save</p>
+            <h1 id="main-header" class="text-4xl md:text-6xl font-black text-[#003f5c] tracking-tight"></h1>
+            <p class="text-lg md:text-xl text-gray-600 mt-4 max-w-3xl mx-auto">A personalized, three-phase plan to help you reach</p>
             <div class="mt-6 text-7xl md:text-8xl font-black text-[#ff6361]">$60,000</div>
         </header>
 
         <section class="mb-16 md:mb-24">
             <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-[#003f5c] text-center mb-2">Track Your Progress vs. Your Goal</h2>
-                <p class="text-center text-gray-600 mb-6">Enter your current savings below to see how you're tracking against your goal timeline. The red line is your goal, and the blue line is your actual progress.</p>
+                <h2 id="progress-header" class="text-2xl md:text-3xl font-bold text-[#003f5c] text-center mb-2"></h2>
+                <p id="progress-subheader" class="text-center text-gray-600 mb-6"></p>
                 <div class="chart-container mb-6">
                     <canvas id="progressVsGoalChart"></canvas>
                 </div>
                 <div class="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
-                    <input type="number" id="currentSavingsInput" placeholder="e.g., 1500" class="flex-grow w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#58508d]" aria-label="Current savings amount">
+                    <input type="number" id="currentValueInput" placeholder="e.g., 1500" class="flex-grow w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#58508d]" aria-label="Current value">
                     <button id="updateProgressBtn" class="w-full sm:w-auto bg-[#58508d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#003f5c] transition-colors duration-300">Update Progress</button>
                 </div>
             </div>
         </section>
 
         <section class="mb-16 md:mb-24">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-10">Phase Contribution to Your $60k Goal</h2>
+            <h2 id="phase-header" class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-10"></h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                 <div class="bg-white rounded-xl shadow-lg p-6 text-center">
                     <div class="chart-container h-64 sm:h-80 mx-auto" style="max-width: 400px;">
                         <canvas id="phaseBreakdownChart"></canvas>
                     </div>
                 </div>
-                <div class="space-y-6">
-                    <div class="bg-white rounded-xl shadow-lg p-6">
-                        <h3 class="text-xl font-bold text-[#58508d]">Phase 1: The Foundation</h3>
-                        <p class="text-gray-600">Focus on building a solid base of <span class="font-bold">$13,000</span> while completing your studies.</p>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-lg p-6">
-                        <h3 class="text-xl font-bold text-[#bc5090]">Phase 2: The Acceleration</h3>
-                        <p class="text-gray-600">Leverage your first tech role to save an additional <span class="font-bold">$24,000</span>.</p>
-                    </div>
-                     <div class="bg-white rounded-xl shadow-lg p-6">
-                        <h3 class="text-xl font-bold text-[#ff6361]">Phase 3: The Home Stretch</h3>
-                        <p class="text-gray-600">Maximize your income as a tech professional to save the final <span class="font-bold">$23,000</span>.</p>
-                    </div>
+                <div id="phase-descriptions" class="space-y-6">
+                    
                 </div>
             </div>
         </section>
 
-        <section class="mb-16 md:mb-24">
+        <section>
              <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-10">Your Strategy for Success</h2>
              <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0">
                 <div class="bg-white rounded-xl shadow-lg p-6 w-full md:w-1/5 text-center">
                     <div class="text-4xl mb-2"> automate </div>
                     <h4 class="font-bold text-lg">Automate</h4>
-                    <p class="text-sm text-gray-600">Set up recurring transfers to your savings account.</p>
+                    <p class="text-sm text-gray-600">Set up recurring transfers to your savings & investments.</p>
                 </div>
                 <div class="flow-arrow transform md:rotate-0 rotate-90">→</div>
                  <div class="bg-white rounded-xl shadow-lg p-6 w-full md:w-1/5 text-center">
                     <div class="text-4xl mb-2"> track </div>
                     <h4 class="font-bold text-lg">Track</h4>
-                    <p class="text-sm text-gray-600">Use an app or spreadsheet to monitor your progress.</p>
+                    <p class="text-sm text-gray-600">Use a spreadsheet to monitor your progress in detail.</p>
                 </div>
                 <div class="flow-arrow transform md:rotate-0 rotate-90">→</div>
                 <div class="bg-white rounded-xl shadow-lg p-6 w-full md:w-1/5 text-center">
@@ -117,24 +125,6 @@
                 </div>
              </div>
         </section>
-
-        <section class="mb-16 md:mb-24">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-10">✨ Supercharge Your Savings with AI</h2>
-            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
-                <p class="text-center text-gray-600 mb-6">Select a topic and let our AI assistant generate personalized ideas to help you reach your goals faster.</p>
-                <div class="flex flex-col sm:flex-row gap-4 mb-4">
-                    <select id="aiTopicSelector" class="flex-grow w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#58508d]">
-                        <option value="tips">Personalized Savings Tips</option>
-                        <option value="hustles">Side Hustle Ideas for CS Students</option>
-                    </select>
-                    <button id="generateIdeasBtn" class="w-full sm:w-auto bg-[#ff6361] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#bc5090] transition-colors duration-300">Generate Ideas</button>
-                </div>
-                <div id="aiResultContainer" class="mt-6 p-4 bg-gray-50 rounded-lg min-h-[150px] text-gray-700">
-                    <p class="text-gray-500 text-center">Your AI-powered suggestions will appear here.</p>
-                </div>
-            </div>
-        </section>
-
     </div>
 
     <script>
@@ -151,199 +141,169 @@
                 lightGray: '#f8f9fa'
             };
 
-            const tooltipTitleCallback = (tooltipItems) => {
-                const item = tooltipItems[0];
-                let label = item.chart.data.labels[item.dataIndex];
-                if (Array.isArray(label)) {
-                    return label.join(' ');
-                }
-                return label;
+            const savingsData = {
+                header: "Your Savings Roadmap",
+                progressHeader: "Track Your Savings vs. Your Goal",
+                progressSubheader: "Enter your current savings below. The red line is your goal, and the blue line is your actual progress.",
+                phaseHeader: "Phase Contribution to Your $60k Savings Goal",
+                goalDates: ['2025-07-30', '2026-07-30', '2027-07-30', '2028-07-30', '2029-07-30', '2030-07-30', '2031-07-30', '2032-01-30'],
+                goalValues: [0, 6000, 12000, 21600, 31200, 45600, 60000, 60000],
+                phases: [
+                    { name: "Phase 1: Foundation", amount: 12000, color: brilliantBluesPalette.purple, description: "Focus on building a solid base of $12,000 by contributing ~$500/month." },
+                    { name: "Phase 2: Acceleration", amount: 24000, color: brilliantBluesPalette.magenta, description: "Leverage your first tech role to save an additional $24,000 by contributing ~$800/month." },
+                    { name: "Phase 3: Home Stretch", amount: 24000, color: brilliantBluesPalette.coral, description: "Maximize your income as a tech professional to save the final $24,000, contributing ~$1200/month." }
+                ]
             };
 
-            const goalDates = ['2025-07-30', '2025-10-01', '2026-01-01', '2026-05-01', '2026-09-01', '2027-01-01', '2027-06-01', '2027-11-01', '2028-04-01', '2028-10-01', '2029-02-01'];
-            const goalSavings = [0, 2000, 5000, 9000, 13000, 20000, 28000, 37000, 47000, 55000, 60000];
-            const goalData = goalDates.map((date, index) => ({ x: date, y: goalSavings[index] }));
+            const investmentsData = {
+                header: "Your Investment Roadmap",
+                progressHeader: "Track Your Investments vs. Your Goal",
+                progressSubheader: "Enter your current portfolio value below. The red line is your projected growth, and the blue line is your actual progress.",
+                phaseHeader: "Phase Contribution to Your $60k Investment Goal",
+                goalDates: ['2025-07-30', '2026-07-30', '2027-07-30', '2028-07-30', '2029-07-30', '2030-07-30', '2031-01-30'],
+                goalValues: [5000, 11470, 18565, 30100, 43250, 58100, 60000],
+                phases: [
+                    { name: "Phase 1: Compounding Start", amount: 13565, color: brilliantBluesPalette.purple, description: "Grow your initial $5,000 by adding ~$500/month to reach over $18,500." },
+                    { name: "Phase 2: High-Growth", amount: 29600, color: brilliantBluesPalette.magenta, description: "Aggressively contribute ~$800/month to push your portfolio towards $48,000." },
+                    { name: "Phase 3: Final Push", amount: 11835, color: brilliantBluesPalette.coral, description: "With ~$1200/month contributions, compounding interest will help you cross the $60,000 finish line." }
+                ]
+            };
 
-            const progressVsGoalCtx = document.getElementById('progressVsGoalChart');
-            const progressVsGoalChart = new Chart(progressVsGoalCtx, {
-                type: 'line',
-                data: {
-                    datasets: [{
-                        label: 'Your Goal',
-                        data: goalData,
-                        borderColor: brilliantBluesPalette.coral,
-                        backgroundColor: 'rgba(255, 99, 97, 0.2)',
-                        fill: true,
-                        tension: 0.1,
-                        pointRadius: 4,
-                        pointBackgroundColor: brilliantBluesPalette.coral,
-                    }, {
-                        label: 'Your Progress',
-                        data: [],
-                        borderColor: brilliantBluesPalette.purple,
-                        backgroundColor: 'rgba(88, 80, 141, 0.2)',
-                        fill: true,
-                        tension: 0.1,
-                        pointRadius: 4,
-                        pointBackgroundColor: brilliantBluesPalette.purple,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'month',
-                                tooltipFormat: 'MMM yyyy'
-                            },
-                            ticks: { color: FONT_COLOR },
-                            grid: { display: false }
+            let currentGoal = 'savings';
+            const progressVsGoalCtx = document.getElementById('progressVsGoalChart').getContext('2d');
+            let progressVsGoalChart;
+
+            const phaseBreakdownCtx = document.getElementById('phaseBreakdownChart').getContext('2d');
+            let phaseBreakdownChart;
+
+            function createOrUpdateMainChart(data) {
+                const goalData = data.goalDates.map((date, index) => ({ x: date, y: data.goalValues[index] }));
+                
+                if (progressVsGoalChart) {
+                    progressVsGoalChart.data.datasets[0].data = goalData;
+                    progressVsGoalChart.data.datasets[1].data = [];
+                    progressVsGoalChart.update();
+                } else {
+                    progressVsGoalChart = new Chart(progressVsGoalCtx, {
+                        type: 'line',
+                        data: {
+                            datasets: [{
+                                label: 'Your Goal',
+                                data: goalData,
+                                borderColor: brilliantBluesPalette.coral,
+                                backgroundColor: 'rgba(255, 99, 97, 0.2)',
+                                fill: true, tension: 0.1, pointRadius: 4, pointBackgroundColor: brilliantBluesPalette.coral,
+                            }, {
+                                label: 'Your Progress',
+                                data: [],
+                                borderColor: brilliantBluesPalette.purple,
+                                backgroundColor: 'rgba(88, 80, 141, 0.2)',
+                                fill: true, tension: 0.1, pointRadius: 4, pointBackgroundColor: brilliantBluesPalette.purple,
+                            }]
                         },
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                color: FONT_COLOR,
-                                callback: function(value) { return '$' + value / 1000 + 'k'; }
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            scales: {
+                                x: { type: 'time', time: { unit: 'year', tooltipFormat: 'MMM yyyy' }, ticks: { color: FONT_COLOR }, grid: { display: false } },
+                                y: { beginAtZero: true, ticks: { color: FONT_COLOR, callback: (value) => '$' + value / 1000 + 'k' }, grid: { color: GRID_COLOR } }
                             },
-                            grid: { color: GRID_COLOR }
+                            plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } }
                         }
-                    },
-                    plugins: {
-                        legend: { position: 'top' },
-                        tooltip: { mode: 'index', intersect: false }
-                    }
+                    });
                 }
-            });
+            }
+            
+            function createOrUpdatePhaseChart(data) {
+                const phaseLabels = data.phases.map(p => p.name);
+                const phaseAmounts = data.phases.map(p => p.amount);
+                const phaseColors = data.phases.map(p => p.color);
+
+                if(phaseBreakdownChart) {
+                    phaseBreakdownChart.data.labels = phaseLabels;
+                    phaseBreakdownChart.data.datasets[0].data = phaseAmounts;
+                    phaseBreakdownChart.data.datasets[0].backgroundColor = phaseColors;
+                    phaseBreakdownChart.update();
+                } else {
+                    phaseBreakdownChart = new Chart(phaseBreakdownCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: phaseLabels,
+                            datasets: [{
+                                data: phaseAmounts,
+                                backgroundColor: phaseColors,
+                                borderColor: brilliantBluesPalette.lightGray,
+                                borderWidth: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false, cutout: '60%',
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        label: (context) => {
+                                            let label = context.label || '';
+                                            if (label) { label += ': '; }
+                                            if (context.parsed !== null) { label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed); }
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            function updateUI(goalType) {
+                currentGoal = goalType;
+                const data = goalType === 'savings' ? savingsData : investmentsData;
+
+                document.getElementById('main-header').textContent = data.header;
+                document.getElementById('progress-header').textContent = data.progressHeader;
+                document.getElementById('progress-subheader').textContent = data.progressSubheader;
+                document.getElementById('phase-header').textContent = data.phaseHeader;
+                document.getElementById('currentValueInput').value = '';
+                
+                document.getElementById('selectSavings').classList.toggle('active', goalType === 'savings');
+                document.getElementById('selectInvestments').classList.toggle('active', goalType === 'investments');
+
+                const phaseDescContainer = document.getElementById('phase-descriptions');
+                phaseDescContainer.innerHTML = '';
+                data.phases.forEach(phase => {
+                    const div = document.createElement('div');
+                    div.className = 'bg-white rounded-xl shadow-lg p-6';
+                    div.innerHTML = `<h3 class="text-xl font-bold" style="color:${phase.color};">${phase.name}</h3><p class="text-gray-600">${phase.description}</p>`;
+                    phaseDescContainer.appendChild(div);
+                });
+
+                createOrUpdateMainChart(data);
+                createOrUpdatePhaseChart(data);
+            }
+
+            document.getElementById('selectSavings').addEventListener('click', () => updateUI('savings'));
+            document.getElementById('selectInvestments').addEventListener('click', () => updateUI('investments'));
 
             document.getElementById('updateProgressBtn').addEventListener('click', () => {
-                const currentSavingsInput = document.getElementById('currentSavingsInput');
-                const currentSavings = parseFloat(currentSavingsInput.value);
+                const currentValueInput = document.getElementById('currentValueInput');
+                const currentValue = parseFloat(currentValueInput.value);
+                const data = currentGoal === 'savings' ? savingsData : investmentsData;
 
-                if (!isNaN(currentSavings) && currentSavings >= 0) {
+                if (!isNaN(currentValue) && currentValue >= 0) {
                     const today = new Date();
+                    const startingValue = currentGoal === 'investments' ? 5000 : 0;
                     const progressData = [
-                        { x: goalDates[0], y: 0 },
-                        { x: today.toISOString().split('T')[0], y: currentSavings }
+                        { x: data.goalDates[0], y: startingValue },
+                        { x: today.toISOString().split('T')[0], y: currentValue }
                     ];
                     progressVsGoalChart.data.datasets[1].data = progressData;
                     progressVsGoalChart.update();
                 } else {
-                    alert('Please enter a valid number for your savings.');
+                    alert('Please enter a valid number.');
                 }
             });
 
-            const phaseBreakdownCtx = document.getElementById('phaseBreakdownChart');
-            new Chart(phaseBreakdownCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Phase 1: Foundation', 'Phase 2: Acceleration', 'Phase 3: Home Stretch'],
-                    datasets: [{
-                        data: [13000, 24000, 23000],
-                        backgroundColor: [
-                            brilliantBluesPalette.purple,
-                            brilliantBluesPalette.magenta,
-                            brilliantBluesPalette.coral
-                        ],
-                        borderColor: brilliantBluesPalette.lightGray,
-                        borderWidth: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '60%',
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: FONT_COLOR,
-                                padding: 15
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            const generateBtn = document.getElementById('generateIdeasBtn');
-            const topicSelector = document.getElementById('aiTopicSelector');
-            const resultContainer = document.getElementById('aiResultContainer');
-
-            generateBtn.addEventListener('click', async () => {
-                const topic = topicSelector.value;
-                let prompt = '';
-
-                if (topic === 'tips') {
-                    prompt = "I am a 23-year-old computer science student working two jobs (a restaurant and a retail store). My goal is to save $60,000. Provide 5 creative and actionable savings tips tailored to my specific situation. Format the response as a numbered list and make it easy to read.";
-                } else {
-                    prompt = "I am a 23-year-old computer science student looking to increase my income. Suggest 3-4 high-potential side hustles or freelance projects I could start. For each one, briefly explain the first step to get started. Format the response as a numbered list.";
-                }
-
-                resultContainer.innerHTML = `<p class="text-center text-gray-500 animate-pulse">Generating ideas...</p>`;
-                generateBtn.disabled = true;
-
-                try {
-                    const text = await callGeminiWithBackoff(prompt);
-                    const formattedText = text
-                        .replace(/^\s*\d\.\s/gm, (match) => `<li class="mb-2">${match.slice(2)}</li>`)
-                        .replace(/\n/g, '')
-                        .replace(/<\/li>/g, '</li>\n');
-                    resultContainer.innerHTML = `<ol class="list-decimal list-inside space-y-2">${formattedText}</ol>`;
-                } catch (error) {
-                    resultContainer.innerHTML = '<p class="text-center text-red-500">Sorry, something went wrong. Please try again later.</p>';
-                } finally {
-                    generateBtn.disabled = false;
-                }
-            });
-
-            async function callGeminiWithBackoff(prompt, maxRetries = 3) {
-                let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-                const payload = { contents: chatHistory };
-                const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                
-                let delay = 1000;
-                for (let i = 0; i < maxRetries; i++) {
-                    try {
-                        const response = await fetch(apiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        
-                        const result = await response.json();
-
-                        if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
-                            return result.candidates[0].content.parts[0].text;
-                        } else {
-                            throw new Error('Invalid response structure from API');
-                        }
-                    } catch (error) {
-                        if (i === maxRetries - 1) throw error;
-                        await new Promise(res => setTimeout(res, delay));
-                        delay *= 2;
-                    }
-                }
-            }
+            updateUI('savings');
         });
     </script>
 </body>
