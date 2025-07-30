@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Savings Journey to $60,000</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-arrow {
+            color: #58508d;
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        #generateIdeasBtn:disabled, #updateProgressBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-12">
+
+        <header class="text-center mb-12 md:mb-20">
+            <h1 class="text-4xl md:text-6xl font-black text-[#003f5c] tracking-tight">Your Roadmap to Financial Freedom</h1>
+            <p class="text-lg md:text-xl text-gray-600 mt-4 max-w-3xl mx-auto">A personalized, three-phase plan to help you save</p>
+            <div class="mt-6 text-7xl md:text-8xl font-black text-[#ff6361]">$60,000</div>
+        </header>
+
+        <section class="mb-16 md:mb-24">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-[#003f5c] text-center mb-2">Track Your Progress vs. Your Goal</h2>
+                <p class="text-center text-gray-600 mb-6">Enter your current savings below to see how you're tracking against your goal timeline. The red line is your goal, and the blue line is your actual progress.</p>
+                <div class="chart-container mb-6">
+                    <canvas id="progressVsGoalChart"></canvas>
+                </div>
+                <div class="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
+                    <input type="number" id="currentSavingsInput" placeholder="e.g., 1500" class="flex-grow w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#58508d]" aria-label="Current savings amount">
+                    <button id="updateProgressBtn" class="w-full sm:w-auto bg-[#58508d] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#003f5c] transition-colors duration-300">Update Progress</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-10">Phase Contribution to Your $60k Goal</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="chart-container h-64 sm:h-80 mx-auto" style="max-width: 400px;">
+                        <canvas id="phaseBreakdownChart"></canvas>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-[#58508d]">Phase 1: The Foundation</h3>
+                        <p class="text-gray-600">Focus on building a solid base of <span class="font-bold">$13,000</span> while completing your studies.</p>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-[#bc5090]">Phase 2: The Acceleration</h3>
+                        <p class="text-gray-600">Leverage your first tech role to save an additional <span class="font-bold">$24,000</span>.</p>
+                    </div>
+                     <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-[#ff6361]">Phase 3: The Home Stretch</h3>
+                        <p class="text-gray-600">Maximize your income as a tech professional to save the final <span class="font-bold">$23,000</span>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16 md:mb-24">
+             <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-10">Your Strategy for Success</h2>
+             <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0">
+                <div class="bg-white rounded-xl shadow-lg p-6 w-full md:w-1/5 text-center">
+                    <div class="text-4xl mb-2"> automate </div>
+                    <h4 class="font-bold text-lg">Automate</h4>
+                    <p class="text-sm text-gray-600">Set up recurring transfers to your savings account.</p>
+                </div>
+                <div class="flow-arrow transform md:rotate-0 rotate-90">→</div>
+                 <div class="bg-white rounded-xl shadow-lg p-6 w-full md:w-1/5 text-center">
+                    <div class="text-4xl mb-2"> track </div>
+                    <h4 class="font-bold text-lg">Track</h4>
+                    <p class="text-sm text-gray-600">Use an app or spreadsheet to monitor your progress.</p>
+                </div>
+                <div class="flow-arrow transform md:rotate-0 rotate-90">→</div>
+                <div class="bg-white rounded-xl shadow-lg p-6 w-full md:w-1/5 text-center">
+                    <div class="text-4xl mb-2"> adjust </div>
+                    <h4 class="font-bold text-lg">Be Flexible</h4>
+                    <p class="text-sm text-gray-600">Adjust the plan as your life and career evolve.</p>
+                </div>
+                <div class="flow-arrow transform md:rotate-0 rotate-90">→</div>
+                <div class="bg-white rounded-xl shadow-lg p-6 w-full md:w-1/5 text-center">
+                    <div class="text-4xl mb-2"> celebrate </div>
+                    <h4 class="font-bold text-lg">Celebrate</h4>
+                    <p class="text-sm text-gray-600">Acknowledge milestones to stay motivated.</p>
+                </div>
+             </div>
+        </section>
+
+        <section class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-10">✨ Supercharge Your Savings with AI</h2>
+            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <p class="text-center text-gray-600 mb-6">Select a topic and let our AI assistant generate personalized ideas to help you reach your goals faster.</p>
+                <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                    <select id="aiTopicSelector" class="flex-grow w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#58508d]">
+                        <option value="tips">Personalized Savings Tips</option>
+                        <option value="hustles">Side Hustle Ideas for CS Students</option>
+                    </select>
+                    <button id="generateIdeasBtn" class="w-full sm:w-auto bg-[#ff6361] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#bc5090] transition-colors duration-300">Generate Ideas</button>
+                </div>
+                <div id="aiResultContainer" class="mt-6 p-4 bg-gray-50 rounded-lg min-h-[150px] text-gray-700">
+                    <p class="text-gray-500 text-center">Your AI-powered suggestions will appear here.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const FONT_COLOR = '#003f5c';
+            const GRID_COLOR = '#d1d5db';
+            
+            const brilliantBluesPalette = {
+                deepBlue: '#003f5c',
+                purple: '#58508d',
+                magenta: '#bc5090',
+                coral: '#ff6361',
+                gold: '#ffa600',
+                lightGray: '#f8f9fa'
+            };
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+
+            const goalDates = ['2025-07-30', '2025-10-01', '2026-01-01', '2026-05-01', '2026-09-01', '2027-01-01', '2027-06-01', '2027-11-01', '2028-04-01', '2028-10-01', '2029-02-01'];
+            const goalSavings = [0, 2000, 5000, 9000, 13000, 20000, 28000, 37000, 47000, 55000, 60000];
+            const goalData = goalDates.map((date, index) => ({ x: date, y: goalSavings[index] }));
+
+            const progressVsGoalCtx = document.getElementById('progressVsGoalChart');
+            const progressVsGoalChart = new Chart(progressVsGoalCtx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Your Goal',
+                        data: goalData,
+                        borderColor: brilliantBluesPalette.coral,
+                        backgroundColor: 'rgba(255, 99, 97, 0.2)',
+                        fill: true,
+                        tension: 0.1,
+                        pointRadius: 4,
+                        pointBackgroundColor: brilliantBluesPalette.coral,
+                    }, {
+                        label: 'Your Progress',
+                        data: [],
+                        borderColor: brilliantBluesPalette.purple,
+                        backgroundColor: 'rgba(88, 80, 141, 0.2)',
+                        fill: true,
+                        tension: 0.1,
+                        pointRadius: 4,
+                        pointBackgroundColor: brilliantBluesPalette.purple,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'month',
+                                tooltipFormat: 'MMM yyyy'
+                            },
+                            ticks: { color: FONT_COLOR },
+                            grid: { display: false }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: FONT_COLOR,
+                                callback: function(value) { return '$' + value / 1000 + 'k'; }
+                            },
+                            grid: { color: GRID_COLOR }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: { mode: 'index', intersect: false }
+                    }
+                }
+            });
+
+            document.getElementById('updateProgressBtn').addEventListener('click', () => {
+                const currentSavingsInput = document.getElementById('currentSavingsInput');
+                const currentSavings = parseFloat(currentSavingsInput.value);
+
+                if (!isNaN(currentSavings) && currentSavings >= 0) {
+                    const today = new Date();
+                    const progressData = [
+                        { x: goalDates[0], y: 0 },
+                        { x: today.toISOString().split('T')[0], y: currentSavings }
+                    ];
+                    progressVsGoalChart.data.datasets[1].data = progressData;
+                    progressVsGoalChart.update();
+                } else {
+                    alert('Please enter a valid number for your savings.');
+                }
+            });
+
+            const phaseBreakdownCtx = document.getElementById('phaseBreakdownChart');
+            new Chart(phaseBreakdownCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Phase 1: Foundation', 'Phase 2: Acceleration', 'Phase 3: Home Stretch'],
+                    datasets: [{
+                        data: [13000, 24000, 23000],
+                        backgroundColor: [
+                            brilliantBluesPalette.purple,
+                            brilliantBluesPalette.magenta,
+                            brilliantBluesPalette.coral
+                        ],
+                        borderColor: brilliantBluesPalette.lightGray,
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: FONT_COLOR,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const generateBtn = document.getElementById('generateIdeasBtn');
+            const topicSelector = document.getElementById('aiTopicSelector');
+            const resultContainer = document.getElementById('aiResultContainer');
+
+            generateBtn.addEventListener('click', async () => {
+                const topic = topicSelector.value;
+                let prompt = '';
+
+                if (topic === 'tips') {
+                    prompt = "I am a 23-year-old computer science student working two jobs (a restaurant and a retail store). My goal is to save $60,000. Provide 5 creative and actionable savings tips tailored to my specific situation. Format the response as a numbered list and make it easy to read.";
+                } else {
+                    prompt = "I am a 23-year-old computer science student looking to increase my income. Suggest 3-4 high-potential side hustles or freelance projects I could start. For each one, briefly explain the first step to get started. Format the response as a numbered list.";
+                }
+
+                resultContainer.innerHTML = `<p class="text-center text-gray-500 animate-pulse">Generating ideas...</p>`;
+                generateBtn.disabled = true;
+
+                try {
+                    const text = await callGeminiWithBackoff(prompt);
+                    const formattedText = text
+                        .replace(/^\s*\d\.\s/gm, (match) => `<li class="mb-2">${match.slice(2)}</li>`)
+                        .replace(/\n/g, '')
+                        .replace(/<\/li>/g, '</li>\n');
+                    resultContainer.innerHTML = `<ol class="list-decimal list-inside space-y-2">${formattedText}</ol>`;
+                } catch (error) {
+                    resultContainer.innerHTML = '<p class="text-center text-red-500">Sorry, something went wrong. Please try again later.</p>';
+                } finally {
+                    generateBtn.disabled = false;
+                }
+            });
+
+            async function callGeminiWithBackoff(prompt, maxRetries = 3) {
+                let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                let delay = 1000;
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                            return result.candidates[0].content.parts[0].text;
+                        } else {
+                            throw new Error('Invalid response structure from API');
+                        }
+                    } catch (error) {
+                        if (i === maxRetries - 1) throw error;
+                        await new Promise(res => setTimeout(res, delay));
+                        delay *= 2;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
